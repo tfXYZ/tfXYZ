@@ -94,3 +94,12 @@ ENV/
 # Pydev projet settings
 .project
 .pydevproject
+
+# ignore everything in local
+local/*
+# but don't ignore the init file
+!local/__init__.py
+
+# other files
+*.npy
+*.out
