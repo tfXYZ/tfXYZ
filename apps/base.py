@@ -1,7 +1,6 @@
+from __future__ import division, absolute_import, print_function
 from abc import ABCMeta, abstractmethod
-
 import tensorflow as tf, os
-FLAGS = tf.app.flags.FLAGS
 
 
 class BaseApp:
@@ -33,4 +32,12 @@ class BaseApp:
 
   @abstractmethod
   def numpy_channels(self, concate_aggregators, step):
+    pass
+
+  @abstractmethod
+  def precache_processing(self, is_train, val_dict):
+    pass
+
+  @abstractmethod
+  def postcache_processing(self, is_train, val_dict, tfr_structure):
     pass
