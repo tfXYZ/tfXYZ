@@ -5,19 +5,11 @@ from scipy import stats
 FLAGS = tf.app.flags.FLAGS
 
 # Some constants
-BN_VARIANCE_EPSILON = 0.001
 BN_COLLECTION = 'bn_updates'
 SUMMARIES_COLLECTION = 'to_summarize'
 MOVING_AVG_COLLECTION = 'moving_avg'
 NON_TRAIN_VARS = 'non_train_vars'
 NON_INIT_VARS = 'non_init_vars'
-
-# Environment settings
-datasets_root = '???'
-SUMMARY_DIR = '???'
-CHECKPOINT_DIR = '???'
-tf.app.flags.DEFINE_string('model_name', '', """Name of the checkpoints files.""")
-
 
 def bayes_classifier_with_discretization(features, labels, eval_features, bins=100, balanced_classes=False):
   n_classes = labels.max()+1

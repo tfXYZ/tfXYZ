@@ -13,9 +13,14 @@ from local import *
 # The flags
 FLAGS = tf.app.flags.FLAGS
 
-# Hyperparams and other constants
+# Environment settings
+tf.app.flags.DEFINE_string('summary_dir', '', 'Path to directory where the training summaries should be stored.')
+tf.app.flags.DEFINE_string('checkpoint_dir', '', 'Path to directory where the model checkpoints should be stored.')
+tf.app.flags.DEFINE_string('model_name', '', 'Name of the checkpoints files.')
 tf.app.flags.DEFINE_string('gpu', '0', 'ID of gpu to use.')
 tf.app.flags.DEFINE_boolean('log_device_placement', False, """True or False.""")
+
+# Hyperparams and other constants
 tf.app.flags.DEFINE_float('lr', 0.1, """Learning rate.""")
 tf.app.flags.DEFINE_float('mom', 0.0, """Momentum.""")
 tf.app.flags.DEFINE_integer('batches', 300000, """Number of training batches before stopping.""")
@@ -42,7 +47,7 @@ tf.app.flags.DEFINE_float('domain_loss_factor', 0.0, '')
 tf.app.flags.DEFINE_string('act_sim_tensors', '', '')
 tf.app.flags.DEFINE_string('act_sim_loss_factors', '0.0,0.0,0.0', '')
 tf.app.flags.DEFINE_boolean('monitor_grad_norms', False, '')
-tf.app.flags.DEFINE_boolean('eval_beofre_training', False, '')
+tf.app.flags.DEFINE_boolean('eval_before_training', False, '')
 tf.app.flags.DEFINE_boolean('dump_activations', False, '')
 tf.app.flags.DEFINE_integer('crop_strides', 1, '')
 tf.app.flags.DEFINE_integer('n_recurrent', 3, '')
@@ -68,7 +73,7 @@ tf.app.flags.DEFINE_string('eval_apps', '', '')
 tf.app.flags.DEFINE_string('train_apps', '', '')
 
 # The bottleneck inference function
-tf.app.flags.DEFINE_string('inference_bottleneck', 'model_cifar', '')
+tf.app.flags.DEFINE_string('inference_bottleneck', 'model_cifar', 'Function that defines the network structure.')
 
 
 def main(action_manager=None):

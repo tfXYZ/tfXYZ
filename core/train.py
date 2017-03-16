@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Import from our libraries
 from . import models
-from .common import SUMMARIES_COLLECTION, BN_COLLECTION, make_summaries, get_debug_session, SUMMARY_DIR, CHECKPOINT_DIR, MOVING_AVG_COLLECTION, Channel, NON_TRAIN_VARS, NON_INIT_VARS
+from .common import SUMMARIES_COLLECTION, BN_COLLECTION, make_summaries, get_debug_session, MOVING_AVG_COLLECTION, Channel, NON_TRAIN_VARS, NON_INIT_VARS
 from .read import get_input
 from .models import common_first_layers
 
@@ -183,7 +183,7 @@ def prepare_train(apps, inference, sess, restore_path, model_name):
   # Saver and summary
   saver = tf.train.Saver(tf.global_variables())
   summary_op = tf.summary.merge_all()
-  summary_writer = tf.summary.FileWriter(SUMMARY_DIR + '/' + str(model_name) + '/train', tf.get_default_graph())
+  summary_writer = tf.summary.FileWriter(FLAGS.summary_dir + '/' + str(model_name) + '/train', tf.get_default_graph())
 
   return channels, saver, summary_writer, summary_op, train_op, global_endpoints
 
@@ -217,7 +217,7 @@ def prepare_evaluation(apps, inference, model_name):
       m['saver'] = tf.train.Saver(tf.global_variables())
 
   # Build the summary operation based on the TF collection of summaries.
-  summary_writer = tf.summary.FileWriter(SUMMARY_DIR + '/' + str(model_name) + '/test', tf.get_default_graph())
+  summary_writer = tf.summary.FileWriter(FLAGS.summary_dir + '/' + str(model_name) + '/test', tf.get_default_graph())
 
   return summary_writer, global_endpoints
 
@@ -233,7 +233,7 @@ def eval_once(apps, summary_writer, model_name):
   print('----------------- TEST MONITOR ----------------------')
   
   # Find the right checkpoint
-  ckpt = tf.train.get_checkpoint_state(CHECKPOINT_DIR, latest_filename=model_name)
+  ckpt = tf.train.get_checkpoint_state(FLAGS.checkpoint_dir, latest_filename=model_name)
   if ckpt and ckpt.model_checkpoint_path:
     print('Restoring from file: {}'.format(ckpt.model_checkpoint_path))
     global_step = ckpt.model_checkpoint_path.split('/')[-1].split('-')[-1]
@@ -476,13 +476,13 @@ def main_loop(train_apps, eval_apps, action_manager):
     while step <= FLAGS.batches and not coord.should_stop() and proceed:  ###tag:Queues###
       # Save if needed
       if step % FLAGS.save_every == 0:
-        if step != 0 or FLAGS.eval_beofre_training:
+        if step != 0 or FLAGS.eval_before_training:
           print('Saving the model')
-          t_saver.save(sess, os.path.join(CHECKPOINT_DIR, model_name), global_step=step, latest_filename=model_name)
+          t_saver.save(sess, os.path.join(FLAGS.checkpoint_dir, model_name), global_step=step, latest_filename=model_name)
 
       # Evaluate model is needed
       if step % FLAGS.eval_every == 0:
-        if step != 0 or FLAGS.eval_beofre_training:
+        if step != 0 or FLAGS.eval_before_training:
           print('Evaluating the model for step number {}'.format(step))
           current_test_channels = eval_once(eval_apps, 
                                             e_summary_writer, 
