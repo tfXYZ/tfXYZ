@@ -14,18 +14,18 @@ from local import *
 FLAGS = tf.app.flags.FLAGS
 
 # Hyperparams and other constants
-tf.app.flags.DEFINE_string('gpu', '0', """number of gpu""")
+tf.app.flags.DEFINE_string('gpu', '0', 'ID of gpu to use.')
 tf.app.flags.DEFINE_boolean('log_device_placement', False, """True or False.""")
 tf.app.flags.DEFINE_float('lr', 0.1, """Learning rate.""")
 tf.app.flags.DEFINE_float('mom', 0.0, """Momentum.""")
 tf.app.flags.DEFINE_integer('batches', 300000, """Number of training batches before stopping.""")
-tf.app.flags.DEFINE_string('alg', 'sgd', """training algorithm to use.""")
+tf.app.flags.DEFINE_string('alg', 'sgd', """Training algorithm to use.""")
 tf.app.flags.DEFINE_integer('decay_steps', 0, '')
 tf.app.flags.DEFINE_float('decay_rate', 0.0, '')
-tf.app.flags.DEFINE_boolean('bn', True, '')
+tf.app.flags.DEFINE_boolean('bn', True, 'Batch normalization.')
 tf.app.flags.DEFINE_float('gc', 10.0, """Gradient Clipping.""")
-tf.app.flags.DEFINE_float('w_std', 0.01, '')
-tf.app.flags.DEFINE_float('b_init', 0.0, '')
+tf.app.flags.DEFINE_float('w_std', 0.01, 'Standard deviation of weight initialization.')
+tf.app.flags.DEFINE_float('b_init', 0.0, 'Value for bias initialization.')
 tf.app.flags.DEFINE_integer('branch_layers', 0, '')
 tf.app.flags.DEFINE_integer('branch_dim', 500, '')
 tf.app.flags.DEFINE_boolean('finetune_all', True, '')
@@ -61,9 +61,9 @@ tf.app.flags.DEFINE_boolean('cache', True, '')
 # Path to restore weights for the bottleneck part from
 tf.app.flags.DEFINE_string('restore_path', '', '') # baseline cifar10
 
-tf.app.flags.DEFINE_string('train_files', '', '')
-tf.app.flags.DEFINE_string('eval_files', '', '')
-tf.app.flags.DEFINE_string('apps', '', '')
+tf.app.flags.DEFINE_string('train_files', '', 'Name of file that contains the list of training files.')
+tf.app.flags.DEFINE_string('eval_files', '', 'Name of file that contains the list of evaluation files.')
+tf.app.flags.DEFINE_string('apps', '', 'Comma-separated list of python classes that will be executed.')
 tf.app.flags.DEFINE_string('eval_apps', '', '')
 tf.app.flags.DEFINE_string('train_apps', '', '')
 
